@@ -15,8 +15,9 @@ class tornado {
         balance = balance + x;
     }
     
-    
-    
+    public static void newCrop(String plant) {
+        crops.add(plant);
+    }
     
 	public static void main(String args[]) {
 		
