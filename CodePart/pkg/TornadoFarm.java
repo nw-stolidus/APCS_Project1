@@ -16,7 +16,7 @@ public class TornadoFarm {
         name = "Windell Blowout";
         for(int i = 0; i < farmLand.length; i++) {
             for(int j = 0; j < farmLand[0].length; j++) {
-                farmLand[i][j] = " 0 ";
+                farmLand[i][j] = "  0  ";
             }
         }
     }
@@ -27,11 +27,11 @@ public class TornadoFarm {
     }
     
     
-    public int getBal() {
-        return balance;
+    public void getBal() {
+        System.out.println("$"+balance);
     }
     
-    public void addBal(int x) {
+    public void changeBal(int x) {
         balance = balance + x;
     }
     
