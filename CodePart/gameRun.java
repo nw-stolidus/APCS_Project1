@@ -9,7 +9,7 @@ class gameRun {
         //AiRS is gonna take money after day
         test.getMap();
         System.out.println("You have 10 days on the farm, GO!");
-        for(int days = 0; days < 10; days++) {
+        for(int days = 1; days <= 10; days++) {
             System.out.println("Do you want to plant a crop(0), see your money(1), or finish the day(2)?");
             int option = sc.nextInt();
             sc.nextLine();
@@ -33,7 +33,7 @@ class gameRun {
                     sc.nextLine();
                     test.plantCrop(first-1, second-1, "  S  ");
                 }
-                if(chosen.equals("pomagaleate") || chosen.equals("Pomagaleate")) {
+                if(chosen.equals("pomegaleate") || chosen.equals("Pomegaleate")) {
                     test.changeBal(-20);
                     System.out.println("Where would you like to plant it?(First coord, 1-5)");
                     int first = sc.nextInt();
@@ -57,10 +57,12 @@ class gameRun {
                 test.getBal();
                 days--;
             }else if(option == 2) {
-                
+                System.out.println("Skipping a day");
+                System.out.println("Current Day: "+days);
             }
             else {
-                System.out.println("Wrong input, skipping a day");
+                System.out.println("Wrong input, try again");
+                days--;
             }    
         }
 	}   
