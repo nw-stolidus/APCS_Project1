@@ -53,12 +53,15 @@ class gameRun {
                     sc.nextLine();
                     test.plantCrop(first-1, second-1, "  W  ");
                 }
+                System.out.println("$"+test.income());
             }else if(option == 1) {
                 test.getBal();
                 days--;
             }else if(option == 2) {
                 System.out.println("Skipping a day");
                 System.out.println("Current Day: "+days);
+                test.income();
+                System.out.println("$"+test.getBal());
             }
             else {
                 System.out.println("Wrong input, try again");

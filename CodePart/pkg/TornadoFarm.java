@@ -27,8 +27,9 @@ public class TornadoFarm {
     }
     
     
-    public void getBal() {
+    public int getBal() {
         System.out.println("$"+balance);
+        return balance;
     }
     
     public void changeBal(int x) {
@@ -37,6 +38,25 @@ public class TornadoFarm {
     
     public String getCrop(int plant) {
         return crops.get(plant);
+    }
+    
+    public int income() {
+        int income = 0;
+        for(int uno = 0; uno < farmLand.length; uno++) {
+            for(int dos = 0; dos < farmLand[0].length; dos++) {
+                if(farmLand[uno][dos].equals("  S  ")) {
+                    income += 30;
+                }
+                if(farmLand[uno][dos].equals("  P  ")) {
+                    income += 15;
+                }
+                if(farmLand[uno][dos].equals("  W  ")) {
+                    income += (int) income*0.6;
+                }
+            }
+        }
+        changeBal(income);
+        return income;
     }
     
     public int getListLen() {

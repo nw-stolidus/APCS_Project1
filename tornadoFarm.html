@@ -1,8 +1,170 @@
-<h1>Welcome to Windenberg Farms</h1>
-<button type="button">Start</button>
-  <script type="text/javascript">
-    alert("Shut");
-    
-  </script>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Farm Management Game</title>
+    <style>
+        /* CSS styles for the game interface */
+        .farm-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
 
+        .crop-field {
+            background-color: #c0e5fd;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
 
+        .balance {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Farm Management Game</h1>
+
+    <div class="farm-grid">
+        <!-- Crop fields -->
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+        <div class="crop-field"></div>
+    </div>
+
+    <div class="balance">Balance: $500</div>
+
+    <div class="options">
+        <label for="crop-select">Choose a crop to plant:</label>
+        <select id="crop-select">
+            <option value="Squallermelon">Squallermelon</option>
+            <option value="Pomegaleate">Pomegaleate</option>
+            <option value="Weend">Weend</option>
+        </select>
+        <label for="position-select">Choose a position:</label>
+        <select id="position-select">
+            <option value="0">1, 1</option>
+            <option value="1">1, 2</option>
+            <option value="2">1, 3</option>
+            <option value="3">1, 4</option>
+            <option value="4">1, 5</option>
+            <option value="5">2, 1</option>
+            <option value="6">2, 2</option>
+            <option value="7">2, 3</option>
+            <option value="8">2, 4</option>
+            <option value="9">2, 5</option>
+            <option value="10">3, 1</option>
+            <option value="11">3, 2</option>
+            <option value="12">3, 3</option>
+            <option value="13">3, 4</option>
+            <option value="14">3, 5</option>
+            <option value="15">4, 1</option>
+            <option value="16">4, 2</option>
+            <option value="17">4, 3</option>
+            <option value="18">4, 4</option>
+            <option value="19">4, 5</option>
+        </select>
+        <button onclick="plantCrop()">Plant Crop</button>
+        <button onclick="finishDay()">Finish Day</button>
+    </div>
+
+    <script>
+        /*global localStorage */
+        window.localStorage;
+        // JavaScript code for the game logic
+        let farmLand = JSON.parse(localStorage.getItem('farmLand')) || Array.from({ length: 20 }, () => '');
+        let balance = parseInt(localStorage.getItem('balance')) || 500;
+
+        function updateFarmGrid() {
+            const cropFields = document.getElementsByClassName('crop-field');
+            for (let i = 0; i < cropFields.length; i++) {
+                cropFields[i].textContent = farmLand[i];
+            }
+        }
+
+        function updateBalance() {
+            const balanceElement = document.querySelector('.balance');
+            balanceElement.textContent = 'Balance: $' + balance;
+        }
+
+        function plantCrop() {
+            const cropSelect = document.getElementById('crop-select');
+            const positionSelect = document.getElementById('position-select');
+            const selectedCrop = cropSelect.value;
+            const selectedPosition = parseInt(positionSelect.value);
+            const selectedField = farmLand[selectedPosition];
+            if (selectedField === '') {
+                if (selectedCrop === 'Squallermelon') {
+                    balance -= 45;
+                    farmLand[selectedPosition] = 'S';
+                } else if (selectedCrop === 'Pomegaleate') {
+                    balance -= 20;
+                    farmLand[selectedPosition] = 'P';
+                } else if (selectedCrop === 'Weend') {
+                    balance -= 90;
+                    farmLand[selectedPosition] = 'W';
+                }
+                updateFarmGrid();
+                updateBalance();
+                saveGameState();
+            }
+        }
+
+        function finishDay() {
+            let income = 0;
+            farmLand.forEach(field => {
+                if (field === 'S') {
+                    income += 30;
+                } else if (field === 'P') {
+                    income += 15;
+                } else if (field === 'W') {
+                    income += Math.round(income * 0.6);
+                }
+            });
+            balance += income;
+            updateBalance();
+            //clearFarmLand();
+            updateFarmGrid();
+            saveGameState();
+        }
+
+        function clearFarmLand() {
+            farmLand = Array.from({ length: 20 }, () => '');
+        }
+
+        function saveGameState() {
+            localStorage.setItem('farmLand', JSON.stringify(farmLand));
+            localStorage.setItem('balance', balance.toString());
+        }
+
+        updateFarmGrid();
+        updateBalance();
+    </script>
+</body>
+</html>
